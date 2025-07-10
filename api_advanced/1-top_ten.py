@@ -15,3 +15,8 @@ v1.0.0 (by /u/firdaus_cartoon_jr)"
     }
     response = requests.get(url, headers=headers, params=params,
                             allow_redirects=False)
+    if response.status_code == 404:
+        print("None")
+        return
+    results = response.json().get("data")
+    [print(c.get("data").get("title")) for c in results.get("children")]
