@@ -1,28 +1,24 @@
 #!/usr/bin/python3
-"""DOCS"""
+"""Fetch top 10 hot posts of a subreddit."""
 import requests
 
 
 def top_ten(subreddit):
-    """Fetch and print the top 10 hot post titles of a subreddit."""
-    reddit_url = "https://www.reddit.com/r/{}/hot.json?limit=10".format(
-        subreddit
+    """Prints the titles of the first 10 hot posts of a subreddit."""
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
+    headers = {
+        "User-Agent": "Mozilla/5.0"
+    }
+    response = requests.get(
+        url,
+        headers=headers,
+        allow_redirects=False
     )
-    headers = {'User-Agent': 'Mozilla/5.0'}
-    response = requests.get(reddit_url, headers=headers, allow_redirects=False)
 
     if response.status_code == 200:
-        try:
-            data = response.json().get('data', {})
-            posts = data.get('children', [])
-
-            if not posts:
-                print("OK", end="")
-                return
-
-            for post in posts[:10]:
-                print(post['data'].get('title', "No Title Found"))
-        except ValueError:
-            print("OK", end="")
+        data = response.json()
+        posts = data.get("data", {}).get("children", [])
+        for post in posts:
+            print(post["data"].get("title"))
     else:
-        print("OK", end="")
+        print(None)
