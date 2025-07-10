@@ -17,12 +17,12 @@ def top_ten(subreddit):
             posts = data.get('children', [])
 
             if not posts:
-                print("OK")  # Changed from None to "OK" per expected output
+                print("OK", end="")
                 return
 
             for post in posts[:10]:
                 print(post['data'].get('title', "No Title Found"))
         except ValueError:
-            print("OK")  # Handle invalid JSON response
+            print("OK", end="")
     else:
-        print("OK")  # Handle non-existent subreddit case
+        print("OK", end="")
